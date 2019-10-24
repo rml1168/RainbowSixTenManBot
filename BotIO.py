@@ -7,10 +7,12 @@ author: jdesig8@aol.com (Jordan Disciglio)
 from discord.ext.commands import Bot
 import random
 import TabAPI
+import time
 
 polling_for_interest = False
 people_interested = list()
 MAX_PEOPLE = 10
+TEAM_GEN_SLEEP_TIME = 1.5
 
 # Bot token
 TOKEN = 'NjM2NzA2NzA0OTkzNTUwMzM2.XbDiYg.hA69bZEhxZRxHiP7T78RdqSWaYs'
@@ -101,26 +103,53 @@ async def waiting():
         await bot.say(str(len(people_interested)) + " people are currently waiting.")
 
 
-@bot.command(name='t', description="Create 2 random teams.",
-             brief="2 teams", pass_context=True)
+@bot.command(name='random', description="Create 2 random teams.",
+             brief="2 teams", aliases=['rt'], pass_context=True)
 async def create_team(context):
     global people_interested
-    a = random.randint(0, (len(people_interested) - 1))
-    b = random.randint(0, (len(people_interested) - 1))
-    print(people_interested - 1)
-    while a == b:
-        b = random.randint(0, (len(people_interested) - 1))
-    captainA = people_interested[a]
-    captainB = people_interested[b]
-    await context.send("Team A Captain: " + str(captainA))
-    await context.send("Team B Captain: " + str(captainB))
-    await context.send("Incase you dont want Captains....")
+    # a = random.randint(0, (len(people_interested) - 1))
+    # b = random.randint(0, (len(people_interested) - 1))
+    # while a == b:
+    #     b = random.randint(0, (len(people_interested) - 1))
+    # captainA = people_interested[a]
+    # captainB = people_interested[b]
+    # await context.send("Team A Captain: " + str(captainA))
+    # await context.send("Team B Captain: " + str(captainB))
+    # await context.send("Incase you dont want Captains....")
+    if len(people_interested) < 10:
+        await bot.say("Not enough people. Current amount: " + str(len(people_interested)))
+        return
+    await bot.say("Generating teams...")
     random.shuffle(people_interested)
     random.shuffle(people_interested)
-    print("Team A is: " + str(people_interested[0:5]))
-    await context.send("Team A is: " + str(people_interested[0:5]))
-    print("Team B is: " + str(people_interested[5:10]))
-    await context.send("Team B is: " + str(people_interested[5:10]))
+    random.shuffle(people_interested)
+    time.sleep(TEAM_GEN_SLEEP_TIME)
+    # blue_team = [person.name for person in people_interested[0:5]]
+    blue_team = list()
+    for i in range(5):
+        blue_member = people_interested[i]
+        if blue_member.nick is None:
+            blue_team.append(blue_member.name)
+        else:
+            blue_team.append(blue_member.nick)
+    # orange_team = [person.name for person in people_interested[5:10]]
+    orange_team = list()
+    for j in range(5, 10):
+        orange_member = people_interested[j]
+        if orange_member.nick is None:
+            orange_team.append(orange_member.name)
+        else:
+            orange_team.append(orange_member.nick)
+    print("Blue Team is: " + str(blue_team))
+    print("Orange Team is: " + str(orange_team))
+    teams = "Blue Team: "
+    for blue_member in blue_team:
+        teams += "\n\t" + blue_member
+    teams += "\n-----------\nOrange Team: "
+    for orange_member in orange_team:
+        teams += "\n\t" + orange_member
+    await bot.say(teams)
+
 
 
 @bot.event
