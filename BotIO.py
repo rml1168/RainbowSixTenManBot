@@ -20,7 +20,7 @@ bot = Bot(command_prefix=BOT_PREFIX)
 
 
 @bot.command(name='10interest', description="Poll for 10 man interest",
-            brief="Polls for 10s", aliases=['10i'], pass_context=True)
+             brief="Polls for 10s", aliases=['10i'], pass_context=True)
 async def tens_interest():
     """
     Start polling interest for 10mans
