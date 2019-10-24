@@ -5,6 +5,7 @@ author: rml1168@rit.edu (Ryan Lei)
 author: jdesig8@aol.com (Jordan Disciglio)
 """
 from discord.ext.commands import Bot
+import random
 
 polling_for_interest = False
 people_interested = list()
@@ -67,6 +68,31 @@ async def tens_polling(context):
         await bot.say(mention)
 
 
+@bot.command(name='t', description="Create 2 random teams.",
+             brief="2 teams", pass_context=True)
+async def create_team(context):
+    global people_interested
+    a = random.randint(0, (len(people_interested) - 1))
+    b = random.randint(0, (len(people_interested) - 1))
+    print(people_interested - 1)
+    while a == b:
+        b = random.randint(0, (len(people_interested) - 1))
+    captainA = people_interested[a]
+    captainB = people_interested[b]
+    await context.send("Team A Captain: " + str(captainA))
+    await context.send("Team B Captain: " + str(captainB))
+    await context.send("Incase you dont want Captains....")
+    random.shuffle(people_interested)
+    random.shuffle(people_interested)
+    print("Team A is: " + str(people_interested[0:5]))
+    await context.send("Team A is: " + str(people_interested[0:5]))
+    print("Team B is: " + str(people_interested[5:10]))
+    await context.send("Team B is: " + str(people_interested[5:10]))
+
+
+
+
+
 @bot.event
 async def on_ready():
     """
@@ -80,3 +106,4 @@ async def on_ready():
 
 
 bot.run(TOKEN)
+
