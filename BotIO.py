@@ -129,9 +129,8 @@ async def on_ready():
     What the bot does on launch
     :return:
     """
-    print('Logged in as')
-    print(bot.user.name)
-    print(bot.user.id)
+    print('Logged in as: ' + bot.user.name)
+    print('Bot user ID: ' + bot.user.id)
     print('------')
 
 

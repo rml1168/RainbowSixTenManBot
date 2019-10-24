@@ -12,8 +12,6 @@ SEARCH_BY_USERNAME = 'https://r6tab.com/api/search.php'
 SEARCH_BY_ID = 'https://r6tab.com/api/player.php'
 FAILURE = "FAIL"
 
-users = dict()
-
 
 def find_by_username(username):
     """
