@@ -94,6 +94,10 @@ async def tens_polling(context):
 @bot.command(name='waiting', description="Display how many people are waiting.",
              brief="How many do we have?", aliases=['w'], pass_context=True)
 async def waiting():
+    """
+    Display how many people are waiting for a 10 man to start
+    :return:
+    """
     people_waiting = len(people_interested)
     if people_waiting == 0:
         await bot.say("No one is currently waiting.")
