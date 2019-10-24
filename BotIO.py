@@ -37,9 +37,12 @@ async def tens_interest():
     Start polling interest for 10mans
     :return:
     """
-    await bot.say("Polling for interest")
     global polling_for_interest
-    polling_for_interest = True
+    if polling_for_interest:
+        await bot.say("Already polling for interest.")
+    else:
+        await bot.say("Polling for interest")
+        polling_for_interest = True
 
 
 @bot.command(name='not', description="Stop polling for 10 mans interest.",
@@ -49,11 +52,14 @@ async def tens_not():
     Turn polling flag false and clear the people_interested list
     :return:
     """
-    await bot.say("Stopping polling...")
     global polling_for_interest
-    global people_interested
-    polling_for_interest = False
-    people_interested.clear()
+    if not polling_for_interest:
+        await bot.say("We weren't polling in the first place.")
+    else:
+        await bot.say("Stopping polling...")
+        global people_interested
+        polling_for_interest = False
+        people_interested.clear()
 
 
 @bot.command(name='poll', description="Add yourself as interested.",
@@ -83,6 +89,18 @@ async def tens_polling(context):
         await bot.say(mention)
 
 
+@bot.command(name='waiting', description="Display how many people are waiting.",
+             brief="How many do we have?", aliases=['w'], pass_context=True)
+async def waiting():
+    people_waiting = len(people_interested)
+    if people_waiting == 0:
+        await bot.say("No one is currently waiting.")
+    elif people_waiting == 1:
+        await bot.say(str(people_waiting) + " person is currently waiting.")
+    else:
+        await bot.say(str(len(people_interested)) + " people are currently waiting.")
+
+
 @bot.command(name='t', description="Create 2 random teams.",
              brief="2 teams", pass_context=True)
 async def create_team(context):
@@ -105,9 +123,6 @@ async def create_team(context):
     await context.send("Team B is: " + str(people_interested[5:10]))
 
 
-
-
-
 @bot.event
 async def on_ready():
     """
@@ -121,4 +136,3 @@ async def on_ready():
 
 
 bot.run(TOKEN)
-
