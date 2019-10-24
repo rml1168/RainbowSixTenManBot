@@ -5,7 +5,6 @@ author: rml1168@rit.edu (Ryan Lei)
 author: jdesig8@aol.com (Jordan Disciglio)
 """
 from discord.ext.commands import Bot
-import random
 
 # Bot token
 TOKEN = 'NjM2NzA2NzA0OTkzNTUwMzM2.XbDiYg.hA69bZEhxZRxHiP7T78RdqSWaYs'
