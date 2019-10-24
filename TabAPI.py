@@ -1,6 +1,6 @@
 """
 file: TabAPI.py
-purpose: Class that handles requests to the R6Tab API
+purpose: Util file that handles requests to the R6Tab API
 author: rml1168@rit.edu (Ryan Lei)
 author: jdesig8@aol.com (Jordan Disciglio)
 """
@@ -32,24 +32,3 @@ def get_rank(p_id):
     """
     response = requests.get(SEARCH_BY_ID, params={'p_id': p_id}).json()
     return int(response['seasonal']['current_NA_mmr'])
-
-
-def add_to_dict(user, p_id, rank):
-    """
-    Add to the dictionary that stores players
-    :param user: discord user object
-    :param p_id: ubisoft given player id
-    :param rank: current rank
-    :return:
-    """
-    global users
-    value = [p_id, rank]
-    users[user] = value
-
-
-def get_users():
-    """
-    Simple getter for users
-    :return: users dictionary
-    """
-    return users
