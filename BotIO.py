@@ -109,7 +109,7 @@ async def waiting():
 
 @bot.command(name='random', description="Create 2 random teams.",
              brief="2 teams", aliases=['rt'], pass_context=True)
-async def create_team(context):
+async def create_team_random(context):
     global people_interested
     # a = random.randint(0, (len(people_interested) - 1))
     # b = random.randint(0, (len(people_interested) - 1))
