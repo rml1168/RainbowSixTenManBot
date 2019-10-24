@@ -14,21 +14,6 @@ TOKEN = 'NjM2NzA2NzA0OTkzNTUwMzM2.XbDiYg.hA69bZEhxZRxHiP7T78RdqSWaYs'
 BOT_PREFIX = "!"
 bot = Bot(command_prefix=BOT_PREFIX)
 
-# @client.event
-# async def on_message(message):
-#     """
-#     What the bot will do when a message is received
-#     :param message: Represents a message from discord
-#     :return:
-#     """
-#     # we do not want the bot to reply to itself
-#     if message.author == client.user:
-#         return
-#
-#     if message.content.startswith('!hello'):
-#         msg = 'Hello {0.author.mention}'.format(message)
-#         await client.send_message(message.channel, msg)
-
 
 @bot.command(name='10interest', description="Poll for 10 man interest",
                 brief="Polls for 10s", aliases=['10i'], pass_context=True)
