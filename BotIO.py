@@ -104,7 +104,7 @@ async def waiting():
     elif people_waiting == 1:
         await bot.say(str(people_waiting) + " person is currently waiting.")
     else:
-        await bot.say(str(len(people_interested)) + " people are currently waiting.")
+        await bot.say(str(people_waiting) + " people are currently waiting.")
 
 
 @bot.command(name='random', description="Create 2 random teams.",
