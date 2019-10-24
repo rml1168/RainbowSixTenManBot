@@ -6,6 +6,7 @@ author: jdesig8@aol.com (Jordan Disciglio)
 """
 from discord.ext.commands import Bot
 import random
+import TabAPI
 
 polling_for_interest = False
 people_interested = list()
@@ -22,11 +23,15 @@ bot = Bot(command_prefix=BOT_PREFIX)
 @bot.command(name='register', description="Register yourself into the bot",
              brief="Register", aliases=['r'], pass_context=True)
 async def register(context, arg):
-    pass
+    result = TabAPI.find_by_username(arg)
+    if result == TabAPI.FAILURE:
+        await bot.say("Invalid username. Try again.")
+        return
+    await bot.say(result)
 
 
-@bot.command(name='10interest', description="Poll for 10 man interest",
-             brief="Polls for 10s", aliases=['10i'], pass_context=True)
+@bot.command(name='interest', description="Poll for 10 man interest",
+             brief="Polls for 10s", aliases=['i'], pass_context=True)
 async def tens_interest():
     """
     Start polling interest for 10mans
@@ -37,8 +42,8 @@ async def tens_interest():
     polling_for_interest = True
 
 
-@bot.command(name='10not', description="Stop polling for 10 mans interest.",
-             brief="Stop polling.", pass_context=True)
+@bot.command(name='not', description="Stop polling for 10 mans interest.",
+             brief="Stop polling.", aliases=['n'], pass_context=True)
 async def tens_not():
     """
     Turn polling flag false and clear the people_interested list
@@ -51,8 +56,8 @@ async def tens_not():
     people_interested.clear()
 
 
-@bot.command(name='10poll', description="Add yourself as interested.",
-             brief="Interested?", pass_context=True)
+@bot.command(name='poll', description="Add yourself as interested.",
+             brief="Interested?", aliases=['p'], pass_context=True)
 async def tens_polling(context):
     """
     Start taking names for 10 mans interest
@@ -64,7 +69,11 @@ async def tens_polling(context):
     if not polling_for_interest:
         await bot.say("Not currently polling for interest.")
         return
+    elif context.message.author in people_interested:
+        await bot.say("You are already queued.")
+        return
     people_interested.append(context.message.author)
+    await bot.say("Added! Amount of people currently waiting: " + str(len(people_interested)))
     if len(people_interested) == MAX_PEOPLE:
         polling_for_interest = False
         await bot.say("We have 10 people!")

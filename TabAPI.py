@@ -10,6 +10,7 @@ import requests
 PLATFORM = 'uplay'
 SEARCH_BY_USERNAME = 'https://r6tab.com/api/search.php'
 SEARCH_BY_ID = 'https://r6tab.com/api/player.php'
+FAILURE = "FAIL"
 
 users = dict()
 
@@ -21,6 +22,8 @@ def find_by_username(username):
     :return: player id given by ubisoft
     """
     response = requests.get(SEARCH_BY_USERNAME, params={'platform': PLATFORM, 'search': username}).json()
+    if int(response['totalresults']) > 1:
+        return "FAIL"
     return response['results'][0]['p_id']
 
 
